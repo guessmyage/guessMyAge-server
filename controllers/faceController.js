@@ -1,32 +1,48 @@
-const axios = require('axios')
+const axios = require("axios");
 
+class faceController {
+  static configureAge(req, res, next) {
+    axios({
+      url: `https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect?returnFaceId=true&returnFaceLandmarks=false&returnFaceAttributes=age&returnFaceAttributes=gender`,
+      headers: {
+        "Ocp-Apim-Subscription-Key": process.env.AZURE_FACE_KEY
+      },
+      method: "POST",
+      data: {
+        url: req.file.cloudStoragePublicUrl
+      }
+    })
+      .then(({ data }) => {
+        res.status(200).json({
+          data,
+          image: req.file.cloudStoragePublicUrl
+        });
+      })
+      .catch(next);
+  }
 
-class faceController{
+  static alternateAge(req, res, next) {
+      console.log(req, 'XXXXXXXXXXXXXXXX');
+    // axios({
+    //   url: `http://max-facial-age-estimator.max.us-south.containers.appdomain.cloud/model/predict`,
+    //   headers: {
+    //     accept: "application/json",
+    //     "Content-Type": "multipart/form-data"
+    //   },
+    //   method: "POST",
+    //   data: {
+    //     image: req
+    //   }
+    // })
+    //   .then(({ data }) => {
+    //     res.status(200).json({
+    //       data,
+    //       image : req.file.cloudStoragePublicUrl
+    //     });
+    //   })
 
-    static configureAge(req, res , next){
-        
-        axios({
-            url: `https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect?returnFaceId=true&returnFaceLandmarks=false&returnFaceAttributes=age&returnFaceAttributes=gender`,
-            headers : {
-                'Ocp-Apim-Subscription-Key' : process.env.AZURE_FACE_KEY
-            },
-            method : "POST",
-            data : {
-                url : "https://storage.googleapis.com/mini-wpstorage-friska/1563510777248yuhu.jpeg"
-                //req.file.cloudStoragePublicUrl 
-            }
-        })
-        .then(({data}) => {
-            res.status(200).json({
-                data,
-                image : 'gambar' //req.file.cloudStoragePublicUrl
-            })
-        })
-        .catch(next)
-    }
-
-    
+    //   .catch(next);
+  }
 }
 
-
-module.exports = faceController
+module.exports = faceController;
