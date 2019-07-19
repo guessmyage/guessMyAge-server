@@ -25,26 +25,7 @@ class faceController{
         .catch(next)
     }
 
-    static alternateAge(){
-        axios({
-            url: `http://max-facial-age-estimator.max.us-south.containers.appdomain.cloud/model/predict`,
-            headers : {
-                'accept' : 'application/json',
-                'Content-Type' : 'multipart/form-data'
-            },
-            method : "POST",
-            data : {
-                image : req.file.cloudStoragePublicUrl
-            }
-        })
-        .then(({data}) => {
-            res.status(200).json({
-                data,
-                image : req.file.cloudStoragePublicUrl
-            })
-        })
-        .catch(next)
-    }
+    
 }
 
 
